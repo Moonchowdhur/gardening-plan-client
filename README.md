@@ -19,6 +19,10 @@ To run the project locally, follow these steps:
 - Install node module using `npm install` and setup environment variables and MongoDB and ensure MongoDB instance is running suceessfully.
 - To start the application in development mode using `npm run dev`.
 
+# Unique Feature:
+
+- added review section for users so they can check all reviews.
+
 # Features
 
 _User Profile_
