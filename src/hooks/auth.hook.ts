@@ -5,6 +5,7 @@ import {
   getAllUsers,
   getUserByEmail,
   loginUser,
+  makePayment,
   registerUser,
   updateUserByEmail,
 } from "@/services/AuthServices";
@@ -113,6 +114,21 @@ export const useUpdateUser = () => {
     },
     onError: (error) => {
       toast.error(`Failed to update user: ${error.message}`);
+    },
+  });
+};
+
+export const usePaymentMutation = () => {
+  return useMutation<string, Error, string>({
+    mutationKey: ["PAYMENT_MUTATION"],
+    mutationFn: makePayment,
+
+    // Handling success and error here, not in the function call
+    onSuccess: () => {
+      toast.success("Payment done!");
+    },
+    onError: (error) => {
+      toast.error(`Failed to make payment: ${error.message}`);
     },
   });
 };

@@ -9,15 +9,20 @@ import {
   useFollowOrUnfollowUser,
   useGetAllUsers,
   useGetUserByEmail,
+  usePaymentMutation,
 } from "@/hooks/auth.hook";
 import { useUserGardeningPostsAndLikes } from "@/hooks/gardenings.hook";
 import { FaStar } from "react-icons/fa";
 
 const FollowPage = () => {
   const { user } = useUser();
+
+  console.log(user, "user");
   // @ts-expect-error: error might happen
 
   const { data: userData } = useGetUserByEmail(user?.email);
+
+  const { mutate: initiatePayment } = usePaymentMutation(); // Payment mutation
 
   const { data: allUsers } = useGetAllUsers();
   const { mutate: followOrUnfollowUser } = useFollowOrUnfollowUser();
@@ -41,12 +46,34 @@ const FollowPage = () => {
 
   const handlePayClick = () => {
     if (paymentMethod) {
-      console.log(`Payment initiated with ${paymentMethod}`);
+      // console.log(`Payment initiated with ${paymentMethod}`);
       setIsModalOpen(false); // Close the modal after payment
     } else {
       alert("Please select a payment method.");
     }
   };
+
+  // const handlePayClick = () => {
+  //   if (paymentMethod) {
+  //     console.log(`Payment initiated with ${paymentMethod}`);
+  //     if (user?.email) {
+  //       // Initiate the payment mutation
+  //       initiatePayment(user?.email, {
+  //         onSuccess: () => {
+  //           toast.success("Payment done!");
+  //         },
+  //         onError: (error: any) => {
+  //           toast.error(`Failed to Payment: ${error.message}`);
+  //         },
+  //       });
+  //     } else {
+  //       alert("Please provide an email.");
+  //     }
+  //     setIsModalOpen(false); // Close the modal after payment
+  //   } else {
+  //     alert("Please select a payment method.");
+  //   }
+  // };
 
   if (isLoading) {
     return (
@@ -113,7 +140,7 @@ const FollowPage = () => {
                         onChange={handlePaymentMethodChange}
                         className="form-radio text-[#809580]"
                       />
-                      <span className="ml-2">Amrpay</span>
+                      <span className="ml-2">Pay $100 by Amrpay </span>
                     </label>
                   </div>
 

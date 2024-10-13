@@ -5,6 +5,7 @@ import axiosInstance from "@/lib/AxiosInstance";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
@@ -162,5 +163,18 @@ export const updateUserByEmail = async (email: any, updatedData: any) => {
     // @ts-expect-error: error might happen
 
     throw new Error(error.response?.data?.message || error.message);
+  }
+};
+
+export const makePayment = async (email: string) => {
+  try {
+    const { data } = await axiosInstance.put(`/user/payment/${email}`);
+
+    if (data.success) {
+      toast.success("Payment successful.");
+    }
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Payment failed.");
   }
 };
